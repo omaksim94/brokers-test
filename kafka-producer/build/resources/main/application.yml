@@ -1,0 +1,12 @@
+server:
+  port: ${KAFKA_PRODUCER_APP_PORT}
+spring:
+  mvc:
+    servlet:
+      path: ${KAFKA_PRODUCER_BASE_PATH}
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+rabbitmq:
+  queue: first-queue
+  exchange: first-exchange

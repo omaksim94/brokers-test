@@ -1,0 +1,7 @@
+rootProject.name = 'brokers'
+
+include 'kafka-consumer'
+include 'kafka-producer'
+include 'common-dto'
+
+project (':common-dto').projectDir = new File('common-dto')

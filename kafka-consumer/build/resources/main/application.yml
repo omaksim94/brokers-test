@@ -1,0 +1,17 @@
+server:
+  port: 8082
+spring:
+  kafka:
+    consumer:
+      host: localhost
+      port: 9092
+      group-id: first-group
+  rabbitmq:
+    host: localhost
+    port: 5672
+kafka:
+  topic: message-topic
+rabbitmq:
+  queue: first-queue
+  exchange: first-exchange
+

@@ -1,0 +1,46 @@
+version: "3"
+services:
+  kafka:
+    image: confluentinc/cp-kafka:5.5.3
+    container_name: kafka
+    hostname: kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka:29092, LISTENER_EXTERNAL://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:PLAINTEXT, LISTENER_EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+    depends_on:
+      - zookeeper
+  zookeeper:
+    image: zookeeper
+    restart: always
+    ports:
+      - '2181:2181'
+  rabbitmq:
+    image: rabbitmq:3.9.14-management-alpine
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+  kafka-producer:
+    build:
+      context: ./kafka-producer
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '8081:8081'
+    environment:
+      PRODUCER_KAFKA_HOST: kafka
+      PRODUCER_KAFKA_PORT: 29092
+      KAFKA_PRODUCER_APP_HOST: localhost
+      KAFKA_PRODUCER_APP_PORT: 8081
+      KAFKA_PRODUCER_BASE_PATH: "/kafka-producer"
+    depends_on:
+      - zookeeper
+      - kafka
+      - rabbitmq
