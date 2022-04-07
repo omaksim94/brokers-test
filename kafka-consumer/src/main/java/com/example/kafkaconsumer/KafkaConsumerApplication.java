@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 @SpringBootApplication
 public class KafkaConsumerApplication {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(KafkaConsumerApplication.class, args);
     }
 }

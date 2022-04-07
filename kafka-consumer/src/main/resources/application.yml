@@ -12,6 +12,6 @@ spring:
 kafka:
   topic: message-topic
 rabbitmq:
-  queue: first-queue
+  queue: first-fanout-queue
   exchange: first-exchange
 
